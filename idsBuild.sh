@@ -20,6 +20,8 @@ echo Building projects using gradle...
 echo Building and Starting Concierge Docker Image...
 cd player-wlpcfg
 
+docker ps -a
+
 ../gradlew buildDockerImage 
 ../gradlew stopCurrentContainer 
 ../gradlew removeCurrentContainer

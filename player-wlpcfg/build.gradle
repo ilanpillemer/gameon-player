@@ -92,6 +92,7 @@ task createNewContainer(type: DockerCreateContainer) {
     targetImageId { "gameon-player" }
     containerName = "gameon-player"
     portBindings = ['9443:9443']
+    links = ['mongo:player-mongo']
     env = localEnvironment
 }
 
@@ -106,7 +107,7 @@ task createNewEtcdContainer(type: DockerCreateContainer) {
     containerName = "gameon-player"
     portBindings = ['9443:9443']
     env = etcdEnvironment
-    links = ['etcd:etcd']
+    links = ['etcd:etcd', 'mongo:player-mongo']
 }
 
 task startNewEtcdContainer(type: DockerStartContainer) {
