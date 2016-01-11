@@ -24,13 +24,24 @@ import javax.ws.rs.core.Application;
 
 @ApplicationPath("/players/*")
 public class PlayerApplication extends Application {
+    /*
+     * The context root for this application is /play
+     * @ApplicationPath will tuck the entirety of the REST endpoint under v1: /play/players/
+     * Any {@link Path} annotations at the class level are appended onto that, etc.
+     */
 
     public final static Set<Class<?>> playerJaxRSClasses = new HashSet<Class<?>>(
-            Arrays.asList(new Class<?>[] { AllPlayersResource.class, PlayerResource.class, Player.class,
-                    PlayerNotFoundException.class, RequestNotAllowedForThisIDException.class }));
+            Arrays.asList(new Class<?>[] { 
+                AllPlayersResource.class, 
+                Health.class,
+                PlayerResource.class, 
+                Player.class,
+                PlayerNotFoundException.class, 
+                RequestNotAllowedForThisIDException.class }));
 
     @Override
     public Set<Class<?>> getClasses() {
         return playerJaxRSClasses;
     }
+
 }

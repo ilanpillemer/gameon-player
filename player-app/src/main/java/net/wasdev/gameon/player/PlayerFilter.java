@@ -97,16 +97,20 @@ public class PlayerFilter implements Filter {
         String playerId = null;
         Map<String, Object> claims = null;
         int pos = 0;
+        
+        HttpServletRequest http = (HttpServletRequest) request;     
+        String path = http.getPathInfo();
+        if("/health".equals(path) ) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         AuthenticationState state = AuthenticationState.hasQueryString; // default
         while (!state.equals(AuthenticationState.PASSED)) {
             switch (state) {
             case hasQueryString: // check that there is a query string
                                     // containing the jwt
-                queryString = ((HttpServletRequest) request).getQueryString(); // this
-                                                                                // is
-                                                                                // the
-                                                                                // raw
-                                                                                // version
+                queryString = ((HttpServletRequest) request).getQueryString(); 
                 state = (queryString == null) ? AuthenticationState.ACCESS_DENIED : AuthenticationState.hasJWTParam;
                 break;
             case hasJWTParam: // check there is an jwt parameter
