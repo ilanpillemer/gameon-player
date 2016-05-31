@@ -24,6 +24,8 @@ import org.ektorp.CouchDbConnector;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Path("/")
 @Api( value = "players")
@@ -44,13 +46,17 @@ public class PlayersResource {
      */
     @GET
     @Path("health")
-    @ApiOperation(value = "Check application health",
+    @io.swagger.annotations.ApiOperation(value = "Check application health",
         notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful"),
+            @ApiResponse(code = 503, message = "Service unavailable")
+        })
     public Response healthCheck() {
 //        if ( mapRepository != null && mapRepository.connectionReady() ) {
 //            return Response.ok().build();
 //        } else {
-//            return Response.serverError().build();
+//            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
 //        }
         return Response.ok().build();
     }

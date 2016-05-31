@@ -50,8 +50,6 @@
   <jndiEntry jndiName="playerUrl" value="${env.PLAYER_URL}"/>
   <jndiEntry jndiName="systemId" value="${env.SYSTEM_ID}"/>
 
-  <logging traceSpecification="*=info:org.gameon.*=all"/>
-
   <!-- Twitter Application Info... -->
   <jndiEntry jndiName="twitterOAuthConsumerKey" value="${env.TWITTER_CONSUMER_KEY}"/>
   <jndiEntry jndiName="twitterOAuthConsumerSecret" value="${env.TWITTER_CONSUMER_SECRET}"/>
@@ -68,10 +66,16 @@
   <jndiEntry jndiName="gitHubOAuthKey" value="${env.GITHUB_APP_ID}"/>
   <jndiEntry jndiName="gitHubOAuthSecret" value="${env.GITHUB_APP_SECRET}"/>
 
-  <applicationMonitor dropinsEnabled="false" updateTrigger="polled"/>
+  <!-- turn off monitoring in containers (see localdev dropin) -->
+  <applicationMonitor dropinsEnabled="false" updateTrigger="mbean"/>
+  <config updateTrigger="mbean" />
 
+  <logging traceSpecification="*=info:org.gameon.*=all:org.gameontext.*=all:net.wasdev.gameon.*=all"/>
+
+  <!-- This is required to prevent the web apps from being lazily loaded -->
+  <webContainer deferServletLoad="false"/>
   <!-- The JVM can get confused about available CPU in virtualized envs -->
-  <executor coreThreads="10"  />
+  <executor coreThreads="5"  />
 
   <!-- new API as a separate war -->
   <webApplication contextRoot="/players" id="player-app" location="player-app.war" name="player-app">
